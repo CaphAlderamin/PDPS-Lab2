@@ -9,7 +9,7 @@ using namespace std;
 using namespace cv;
 
 const int ThreadsNumber = 6;
-const int repeats = 10;
+const int repeats = 20;
 
 typedef Vec3b Pixel;
 
@@ -55,11 +55,7 @@ void modifyColorsBlueThreads(const Mat& imageBGR, Mat& imageResult)
 
 	uchar B, G, R = 0;
 
-//#pragma omp parallel num_threads(ThreadsNumber)
-//	#pragma omp critical
-//		cout << "BLUE Thread: " << omp_get_thread_num() << " | " << this_thread::get_id() << endl;	
-
-#pragma omp parallel for num_threads(ThreadsNumber)
+#pragma omp parallel for num_threads(ThreadsNumber) private (B,G,R)
 	for (int i = 0; i < imageBGR.rows; i++)
 	{
 		for (int j = 0; j < imageBGR.cols; j++)
@@ -70,7 +66,6 @@ void modifyColorsBlueThreads(const Mat& imageBGR, Mat& imageResult)
 			imageResult.at<Vec3b>(i, j)[0] = B - (G + B) / 2;
 		}
 	}
-	//imshow("Modified Blue", imageResult);  waitKey(0);
 
 	//cout << "\nFilter Blue is end";
 }
@@ -85,11 +80,7 @@ void modifyColorsYellowThreads(const Mat& imageBGR, Mat& imageResult)
 
 	uchar B, G, R = 0;
 
-//#pragma omp parallel num_threads(ThreadsNumber)
-//	#pragma omp critical
-//		cout << "YELLOW Thread: " << omp_get_thread_num() << " | " << this_thread::get_id() << endl;
-
-#pragma omp parallel for num_threads(ThreadsNumber)
+#pragma omp parallel for num_threads(ThreadsNumber) private (B,G,R)
 	for (int i = 0; i < imageBGR.rows; i++)
 	{
 		for (int j = 0; j < imageBGR.cols; j++)
@@ -103,7 +94,6 @@ void modifyColorsYellowThreads(const Mat& imageBGR, Mat& imageResult)
 			}
 		}
 	}
-	//imshow("Modified Yellow", imageResult);  waitKey(0);
 
 	//cout << "\nFilter Yellow is end";
 }
@@ -123,7 +113,6 @@ void modifyColorsBlueThreadsForEach(const Mat& imageBGR, Mat& imageResult)
 
 	imageBGR.copyTo(imageResult);
 
-
 	imageResult.forEach<Pixel>
 		(
 			[](Pixel& pixel, const int* position) -> void
@@ -132,24 +121,7 @@ void modifyColorsBlueThreadsForEach(const Mat& imageBGR, Mat& imageResult)
 			}
 	);
 
-	/*uchar B, G, R = 0;
-	parallel_for_(Range(0, imageBGR.rows), [&](const Range& range)
-		{
-			for (int i = range.start; i < range.end; i++)
-			{
-				for (int j = 0; j < imageBGR.cols; j++)
-				{
-					B = imageBGR.at<Vec3b>(i, j)[0];
-					G = imageBGR.at<Vec3b>(i, j)[1];
-					R = imageBGR.at<Vec3b>(i, j)[2];
-					imageResult.at<Vec3b>(i, j)[0] = B - (G + B) / 2;
-				}
-			}
-			cout << "BLUE I am Thread: " << this_thread::get_id() << endl;
-		}, 2);*/
-		//imshow("Modified Blue", imageResult);  waitKey(0);
-
-		//cout << "\nFilter Blue is end";
+	//cout << "\nFilter Blue is end";
 }
 void modifyColorsYellowThreadsForEach(const Mat& imageBGR, Mat& imageResult)
 {
@@ -169,26 +141,6 @@ void modifyColorsYellowThreadsForEach(const Mat& imageBGR, Mat& imageResult)
 					//pixel = pixel[2] + pixel[1] - 2 * (abs(pixel[2] - pixel[1]) + pixel[0]);
 			}
 	);
-
-	//uchar B, G, R = 0;
-	//parallel_for_(Range(0, imageBGR.rows), [&](const Range& range)
-	//	{
-	//		for (int i = range.start; i < range.end; i++)
-	//		{
-	//			for (int j = 0; j < imageBGR.cols; j++)
-	//			{
-	//				if (imageCMYK[2].at<uchar>(i, j))
-	//				{
-	//					B = imageBGR.at<Vec3b>(i, j)[0];
-	//					G = imageBGR.at<Vec3b>(i, j)[1];
-	//					R = imageBGR.at<Vec3b>(i, j)[2];
-	//					imageResult.at<Vec3b>(i, j) = R + G - 2 * (abs(R - G) + B);
-	//				}
-	//			}
-	//		}
-	//		//cout << "YELLOW I am Thread: " << this_thread::get_id() << endl;
-	//	}, 6);
-	//imshow("Modified Yellow", imageResult);  waitKey(0);
 
 	//cout << "\nFilter Yellow is end";
 }
@@ -248,7 +200,6 @@ void modifyColorsBlue(const Mat& imageBGR, Mat& imageResult)
 			imageResult.at<Vec3b>(i, j)[0] = B - (G + B)/2;
 		}
 	}
-	//imshow("Modified Blue", imageResult);  waitKey(0);
 
 	//cout << "\nFilter Blue is end";
 }
@@ -275,7 +226,6 @@ void modifyColorsYellow(const Mat& imageBGR, Mat& imageResult)
 			}
 		}
 	}
-	//imshow("Modified Yellow", imageResult);  waitKey(0);
 
 	//cout << "\nFilter Yellow is end";
 }
@@ -331,13 +281,17 @@ int main()
 		// =============== Многопоточная модификация каналов ===============
 		start = chrono::high_resolution_clock::now(); //Точка для начала счета времени
 
-		//modifyColorsThreads(image1024x768, image1024x768Modifed);
-		//modifyColorsThreads(image1280x960, image1280x960Modifed);
-		//modifyColorsThreads(image2048x1536, image2048x1536Modifed);
-		//modifyColorsThreads(image7680x4320, image7680x4320Modifed);
+		// ==== OpenMP Pragma Realization ====
+		
+		modifyColorsThreads(image1024x768, image1024x768Modifed);
+		modifyColorsThreads(image1280x960, image1280x960Modifed);
+		modifyColorsThreads(image2048x1536, image2048x1536Modifed);
+		modifyColorsThreads(image7680x4320, image7680x4320Modifed);
 
 		//modifyColorsBlueThreads(image7680x4320, image7680x4320Modifed);
 		//modifyColorsYellowThreads(image7680x4320, image7680x4320Modifed);
+
+		// ==== OpenCV ForEach Realization ====
 
 		//modifyColorsThreadsForEach(image1024x768, image1024x768Modifed);
 		//modifyColorsThreadsForEach(image1280x960, image1280x960Modifed);
@@ -354,10 +308,10 @@ int main()
 		// =============== Однопоточная модификация каналов ===============
 		start = chrono::high_resolution_clock::now(); //Точка для начала счета времени
 
-		//modifyColors(image1024x768, image1024x768Modifed);
-		//modifyColors(image1280x960, image1280x960Modifed);
-		//modifyColors(image2048x1536, image2048x1536Modifed);
-		//modifyColors(image7680x4320, image7680x4320Modifed); 
+		modifyColors(image1024x768, image1024x768Modifed);
+		modifyColors(image1280x960, image1280x960Modifed);
+		modifyColors(image2048x1536, image2048x1536Modifed);
+		modifyColors(image7680x4320, image7680x4320Modifed); 
 
 		//modifyColorsBlue(image7680x4320, image7680x4320Modifed);
 		//modifyColorsYellow(image7680x4320, image7680x4320Modifed);
@@ -397,136 +351,4 @@ int main()
 	cout << "Average time of one thread calculation " << oneThreadDurationTime / repeats << endl << endl;
 
 	return 0;
-}
-
-/// ============================================================================= ///
-/// ============================================================================= ///
-/// =============================== RESERVED CODE =============================== ///
-/// ============================================================================= ///
-/// ============================================================================= ///
-
-void bgr2cmykThreads1(Mat& img, vector<Mat>& cmyk)
-{
-	// Allocate cmyk to store 4 componets
-	for (int i = 0; i < 4; i++)
-	{
-		cmyk.push_back(Mat(img.size(), CV_8UC1));
-	}
-
-	// Get rgb
-	vector<Mat> rgb;
-	split(img, rgb);
-
-	// rgb to cmyk
-	parallel_for_(Range(0, img.rows), [&](const Range& range)
-		{
-			for (int i = range.start; i < range.end; i++)
-			{
-				for (int j = 0; j < img.cols; j++)
-				{
-					float r = (int)rgb[2].at<uchar>(i, j) / 255.;
-					float g = (int)rgb[1].at<uchar>(i, j) / 255.;
-					float b = (int)rgb[0].at<uchar>(i, j) / 255.;
-					float k = min(min(1 - r, 1 - g), 1 - b);
-
-					cmyk[0].at<uchar>(i, j) = (1 - r - k) / (1 - k) * 255.;
-					cmyk[1].at<uchar>(i, j) = (1 - g - k) / (1 - k) * 255.;
-					cmyk[2].at<uchar>(i, j) = (1 - b - k) / (1 - k) * 255.;
-					cmyk[3].at<uchar>(i, j) = k * 255.;
-				}
-			}
-			cout << "CMYK I am Thread: " << this_thread::get_id() << endl;
-		}, 6);
-
-}
-
-void bgr2cmykThreads2(Mat& img, vector<Mat>& cmyk)
-{
-	// Allocate cmyk to store 4 componets
-	for (int i = 0; i < 4; i++)
-	{
-		cmyk.push_back(Mat(img.size(), CV_8UC1));
-	}
-
-	// Get rgb
-	vector<Mat> rgb;
-	split(img, rgb);
-
-	// rgb to cmyk
-
-#pragma omp parallel for num_threads(6)
-	for (int i = 0; i < img.rows; i++)
-	{
-		for (int j = 0; j < img.cols; j++)
-		{
-			float r = (int)rgb[2].at<uchar>(i, j) / 255.;
-			float g = (int)rgb[1].at<uchar>(i, j) / 255.;
-			float b = (int)rgb[0].at<uchar>(i, j) / 255.;
-			float k = min(min(1 - r, 1 - g), 1 - b);
-
-			cmyk[0].at<uchar>(i, j) = (1 - r - k) / (1 - k) * 255.;
-			cmyk[1].at<uchar>(i, j) = (1 - g - k) / (1 - k) * 255.;
-			cmyk[2].at<uchar>(i, j) = (1 - b - k) / (1 - k) * 255.;
-			cmyk[3].at<uchar>(i, j) = k * 255.;
-		}
-	}
-}
-void modifyColorsBlueThreads2(const Mat& imageBGR, Mat& imageResult)
-{
-	//cout << "\nFilter Blue is start";
-
-	imageBGR.copyTo(imageResult);
-
-	uchar B, G, R = 0;
-#pragma omp parallel for num_threads(6)
-	for (int i = 0; i < imageBGR.rows; i++)
-	{
-		for (int j = 0; j < imageBGR.cols; j++)
-		{
-			B = imageBGR.at<Vec3b>(i, j)[0];
-			G = imageBGR.at<Vec3b>(i, j)[1];
-			R = imageBGR.at<Vec3b>(i, j)[2];
-			imageResult.at<Vec3b>(i, j)[0] = B - (G + B) / 2;
-		}
-	}
-	//imshow("Modified Blue", imageResult);  waitKey(0);
-
-	//cout << "\nFilter Blue is end";
-}
-void modifyColorsYellowThreads2(const Mat& imageBGR, Mat& imageResult)
-{
-	//cout << "\nFilter Yellow is start";
-
-	imageBGR.copyTo(imageResult);
-
-	vector<Mat> imageCMYK;
-	bgr2cmykThreads2(imageResult, imageCMYK);
-
-	uchar B, G, R = 0;
-#pragma omp parallel for num_threads(6)
-	for (int i = 0; i < imageBGR.rows; i++)
-	{
-		for (int j = 0; j < imageBGR.cols; j++)
-		{
-			if (imageCMYK[2].at<uchar>(i, j))
-			{
-				B = imageBGR.at<Vec3b>(i, j)[0];
-				G = imageBGR.at<Vec3b>(i, j)[1];
-				R = imageBGR.at<Vec3b>(i, j)[2];
-				imageResult.at<Vec3b>(i, j) = R + G - 2 * (abs(R - G) + B);
-			}
-		}
-	}
-	//imshow("Modified Yellow", imageResult);  waitKey(0);
-
-	//cout << "\nFilter Yellow is end";
-}
-void modifyColorsThreads2(const Mat& imageBGR, Mat& imageResult)
-{
-	//cout << "\nFilter is start";
-
-	modifyColorsBlueThreads2(imageBGR, imageResult);
-	modifyColorsYellowThreads2(imageResult, imageResult);
-
-	//cout << "\nFilter is end";
 }
