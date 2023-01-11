@@ -25,11 +25,7 @@ void bgr2cmykThreads(Mat& img, vector<Mat>& cmyk)
 	vector<Mat> rgb;
 	split(img, rgb);
 
-	//#pragma omp parallel num_threads(ThreadsNumber)
-	//#pragma omp critical
-	//	cout << "CMYK Thread: " << omp_get_thread_num() << " | " << this_thread::get_id() << endl;
-
-		//rgb to cmyk
+	//rgb to cmyk
 #pragma omp parallel for num_threads(ThreadsNumber)
 	for (int i = 0; i < img.rows; i++)
 	{
