@@ -146,6 +146,16 @@
     <ClCompile Include="Lab2.cpp" />
     <ClCompile Include="Task2.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\1024x768.jpg" />
+    <Image Include="Data\1280x960.jpg" />
+    <Image Include="Data\2048x1536.jpg" />
+    <Image Include="Data\7680x4320.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Logs\1_4_2_2048_2.txt" />
+    <Text Include="Logs\2_2048_1.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -25,4 +25,22 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Data\1024x768.jpg">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Data\1280x960.jpg">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Data\2048x1536.jpg">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="Data\7680x4320.jpg">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Logs\1_4_2_2048_2.txt" />
+    <Text Include="Logs\2_2048_1.txt" />
+  </ItemGroup>
 </Project>
