@@ -1,0 +1,129 @@
+
+Select the task number:
+1 - First task / 2 - Second task / 3 - Exit from programm
+1
+
+Select the method:
+1 - Several threads realization / 2 - One thread realization / Other - Back
+1
+||====================||
+||====================||
+
+All several threads calculation times:
+Repeat 0: 0.208463
+Repeat 1: 0.24076
+Repeat 2: 0.174999
+Repeat 3: 0.216918
+Repeat 4: 0.215337
+Repeat 5: 0.199264
+Repeat 6: 0.178478
+Repeat 7: 0.210579
+Repeat 8: 0.253541
+Repeat 9: 0.215677
+Repeat 10: 0.18306
+Repeat 11: 0.172142
+Repeat 12: 0.176427
+Repeat 13: 0.203443
+Repeat 14: 0.171463
+Repeat 15: 0.187085
+Repeat 16: 0.169758
+Repeat 17: 0.167281
+Repeat 18: 0.168035
+Repeat 19: 0.176437
+General time of several threads calculation    3.88915
+Average time of several threads calculation    0.194457
+
+
+Select the task number:
+1 - First task / 2 - Second task / 3 - Exit from programm
+1
+
+Select the method:
+1 - Several threads realization / 2 - One thread realization / Other - Back
+2
+||====================||
+||====================||
+
+All one thread calculation times:
+Repeat 0: 0.65216
+Repeat 1: 0.637313
+Repeat 2: 0.634381
+Repeat 3: 0.639973
+Repeat 4: 0.640134
+Repeat 5: 0.637411
+Repeat 6: 0.63489
+Repeat 7: 0.652538
+Repeat 8: 0.6397
+Repeat 9: 0.64225
+Repeat 10: 0.638166
+Repeat 11: 0.645197
+Repeat 12: 0.642279
+Repeat 13: 0.648748
+Repeat 14: 0.641434
+Repeat 15: 0.657864
+Repeat 16: 0.641647
+Repeat 17: 0.64143
+Repeat 18: 0.638196
+Repeat 19: 0.637651
+General time of one thread calculation: 12.8434
+Average time of one thread calculation 0.642168
+
+
+Select the task number:
+1 - First task / 2 - Second task / 3 - Exit from programm
+2
+Dimension: 2048
+Thread number: 6
+Repeats number: 10
+
+Select the method:
+1 - Several threads realization / 2 - One thread realization / Other - Back
+1
+||==========||
+||==========||
+
+All several threads calculation times:
+Repeat 0: 12.1542
+Repeat 1: 10.8002
+Repeat 2: 10.1386
+Repeat 3: 10.4095
+Repeat 4: 10.3021
+Repeat 5: 10.229
+Repeat 6: 10.3208
+Repeat 7: 10.1861
+Repeat 8: 10.4197
+Repeat 9: 10.2494
+General time of several threads calculation    105.21
+Average time of several threads calculation    10.521
+
+
+Select the task number:
+1 - First task / 2 - Second task / 3 - Exit from programm
+2
+Dimension: 2048
+Thread number: 6
+Repeats number: 10
+
+Select the method:
+1 - Several threads realization / 2 - One thread realization / Other - Back
+2
+||==========||
+||==========||
+
+All one thread calculation times:
+Repeat 0: 53.1889
+Repeat 1: 52.2373
+Repeat 2: 55.1975
+Repeat 3: 53.8565
+Repeat 4: 53.3156
+Repeat 5: 52.5511
+Repeat 6: 52.4209
+Repeat 7: 54.6832
+Repeat 8: 57.6483
+Repeat 9: 58.5799
+General time of one thread calculation 543.679
+Average time of one thread calculation 54.3679
+
+
+Select the task number:
+1 - First task / 2 - Second task / 3 - Exit from programm
