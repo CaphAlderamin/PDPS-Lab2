@@ -1,12 +1,9 @@
-#include <opencv2/opencv.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
+#include <chrono>
 #include <iostream>
 #include <cmath>
-#include "omp.h"
+#include <vector>
+//#include "omp.h"
 using namespace std;
-using namespace cv;
 
 const int ThreadsNumber = 6;
 
